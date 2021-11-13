@@ -1,0 +1,14 @@
+{
+  "name": "txtexports",
+  "version": "1.0.0",
+  "description": "Exporta a txt de mysql",
+  "main": "app.js",
+  "scripts": {
+    "test": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mysql": "^2.18.1"
+  }
+}
