@@ -1,38 +1,26 @@
-const mysql = require("mysql");
 const fs = require('fs');
+const Database = require('./Database');
 
-const connection = mysql.createConnection({
+const config = {
     host: "localhost",
-    database:"sakila",
-    user:"root",
-    password:"password",
-    insecureAuth : true,
-    
-})
-
-
-connection.connect((error)=>{
-if(error){
-    throw error
+    database: "sakila",
+    user: "root",
+    password: "password",
+    insecureAuth: true,
 }
-    console.log("conectado papu")
-})
 
+const db = new Database(config)
+
+const sql_actor = "SELECT * FROM actor"
 let actors
 
-connection.query("SELECT * FROM actor", function(error, results, fields){
-if(error) throw error;
+db.query(sql_actor).then(res => {
+    actors = res.map(actor => actor.first_name + " " + actor.last_name)
 
- actors = results.map(actor => [actor.last_name + " " + actor.first_name]);
-
-
-
-fs.writeFile('helloworld.txt', actors, function (err) {
-  if (err) return console.log(err);
-  console.log('Hello World > helloworld.txt');
-});
-
-console.log(results[0])
+    fs.writeFile('helloworld.txt', actors, function (err) {
+        if (err) return console.log(err);
+        console.log('Hello World > helloworld.txt');
+    });
 })
 
-connection.end()
+db.close()
